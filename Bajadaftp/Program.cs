@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using static Bajadaftp.BD.DbConnection;
 
 namespace Bajadaftp
 {
@@ -12,10 +15,22 @@ namespace Bajadaftp
     {
         static void Main(string[] args)
         {
+            SqlConnection cnn = BD.DbConnection.getDBConnection();
+            DataTable ConfigData = new DataTable();
+            string sql = "Select * From ecomm_expert_config";
+            SqlCommand cmd = new SqlCommand(sql, cnn);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(ConfigData);
 
-            FtpWebRequest listRequest = (FtpWebRequest)WebRequest.Create("ftp://BRM-ONLINE@mercadoexperts.com/CATALOGO/");
+            string Hostbaja = ConfigData.Rows[0]["hostbaja"].ToString();
+            string usuario = ConfigData.Rows[0]["usuario"].ToString();
+            string pass = ConfigData.Rows[0]["contraseña"].ToString();
+            string archivo = ConfigData.Rows[0]["CARPETA_ORDENES"].ToString();
+
+
+            FtpWebRequest listRequest = (FtpWebRequest)WebRequest.Create(Hostbaja);
             listRequest.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
-            NetworkCredential credentials = new NetworkCredential("BRM-ONLINE@mercadoexperts.com", "NpSgFwh40q7M");
+            NetworkCredential credentials = new NetworkCredential(usuario, pass);
             listRequest.Credentials = credentials;
 
             List<string> lines = new List<string>();
@@ -37,8 +52,8 @@ namespace Bajadaftp
                 string name = tokens[8];
                 string permissions = tokens[0];
 
-                string localFilePath = Path.Combine(@"C:\Users\DELL\Desktop\Visual Studio\archivo_brm", name);
-                string fileUrl = "ftp://BRM-ONLINE@mercadoexperts.com/CATALOGO/"  + name ;
+                string localFilePath = Path.Combine(archivo, name);
+                string fileUrl = Hostbaja  + name ;
 
                 if (permissions[0] == 'd')
                 {
