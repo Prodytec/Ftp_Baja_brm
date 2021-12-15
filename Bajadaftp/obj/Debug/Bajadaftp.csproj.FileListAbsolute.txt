@@ -1,0 +1,7 @@
+C:\Users\DELL\Desktop\Visual Studio\Repositorios git\Bajada_ftp\Bajadaftp\Bajadaftp\bin\Debug\Bajadaftp.exe.config
+C:\Users\DELL\Desktop\Visual Studio\Repositorios git\Bajada_ftp\Bajadaftp\Bajadaftp\bin\Debug\Bajadaftp.exe
+C:\Users\DELL\Desktop\Visual Studio\Repositorios git\Bajada_ftp\Bajadaftp\Bajadaftp\bin\Debug\Bajadaftp.pdb
+C:\Users\DELL\Desktop\Visual Studio\Repositorios git\Bajada_ftp\Bajadaftp\Bajadaftp\obj\Debug\Bajadaftp.csprojAssemblyReference.cache
+C:\Users\DELL\Desktop\Visual Studio\Repositorios git\Bajada_ftp\Bajadaftp\Bajadaftp\obj\Debug\Bajadaftp.csproj.CoreCompileInputs.cache
+C:\Users\DELL\Desktop\Visual Studio\Repositorios git\Bajada_ftp\Bajadaftp\Bajadaftp\obj\Debug\Bajadaftp.exe
+C:\Users\DELL\Desktop\Visual Studio\Repositorios git\Bajada_ftp\Bajadaftp\Bajadaftp\obj\Debug\Bajadaftp.pdb
