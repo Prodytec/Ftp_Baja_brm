@@ -12,3 +12,7 @@ C:\Users\DELL\Desktop\Visual Studio\Repositorios git\Ftp_bajada\Bajadaftp\obj\De
 C:\Users\DELL\Desktop\Visual Studio\Repositorios git\Ftp_bajada\Bajadaftp\obj\Debug\Bajadaftp.csproj.CoreCompileInputs.cache
 C:\Users\DELL\Desktop\Visual Studio\Repositorios git\Ftp_bajada\Bajadaftp\obj\Debug\Bajadaftp.exe
 C:\Users\DELL\Desktop\Visual Studio\Repositorios git\Ftp_bajada\Bajadaftp\obj\Debug\Bajadaftp.pdb
+C:\Users\DELL\Desktop\Visual Studio\Repositorios git\Ftp_bajada\Bajadaftp\bin\Debug\Bajadaftp.exe.manifest
+C:\Users\DELL\Desktop\Visual Studio\Repositorios git\Ftp_bajada\Bajadaftp\bin\Debug\Bajadaftp.application
+C:\Users\DELL\Desktop\Visual Studio\Repositorios git\Ftp_bajada\Bajadaftp\obj\Debug\Bajadaftp.exe.manifest
+C:\Users\DELL\Desktop\Visual Studio\Repositorios git\Ftp_bajada\Bajadaftp\obj\Debug\Bajadaftp.application
