@@ -61,13 +61,6 @@ namespace Bajadaftp
                     {
                         Directory.CreateDirectory(localFilePath);
                     }
-                    FtpWebRequest request = (FtpWebRequest)WebRequest.Create(Hostbaja);
-                    request.Method = WebRequestMethods.Ftp.DeleteFile;
-
-                    FtpWebResponse response = (FtpWebResponse)request.GetResponse();
-                    Console.WriteLine("Delete status: {0}", response.StatusDescription);
-                    response.Close();
-
                 }
                 else
                 {
@@ -86,6 +79,14 @@ namespace Bajadaftp
                         {
                             targetStream.Write(buffer, 0, read);
                         }
+                    }
+                    FtpWebRequest request = (FtpWebRequest)WebRequest.Create(Hostbaja + name);
+                    request.Method = WebRequestMethods.Ftp.DeleteFile;
+                    request.Credentials = new NetworkCredential(usuario, pass);
+
+                    using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
+                    {
+
                     }
                 }
             }
