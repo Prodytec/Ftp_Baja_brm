@@ -20,15 +20,13 @@ namespace Bajadaftp
 
             foreach (var linea in lineas)
             {
-                var valores = linea.Split(',');
+                var valores = linea.Split('|');
                 SqlCommand cmd = new SqlCommand("sp_proyectocolor_stock", cnn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@codigo", valores[0]);
                 cmd.Parameters.AddWithValue("@stock", valores[5]);
                 cmd.ExecuteNonQuery();
             }
-            //SqlCommand delete = new SqlCommand("delete from stock_pcolor", cnn);
-            //delete.ExecuteNonQuery();
         }
         public void Bajada()
         {

@@ -25,6 +25,7 @@ namespace Bajadaftp
                     F.Bajada();
                     return;
                 case "digitalapps":
+                    F.Bajada();
                     F.leercsv();
                     return;
                 case "american":
