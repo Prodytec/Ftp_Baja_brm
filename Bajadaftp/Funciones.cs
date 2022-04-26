@@ -70,6 +70,9 @@ namespace Bajadaftp
                 string localFilePath = Path.Combine(archivo, name);
                 string fileUrl = Hostbaja + name;
 
+
+                
+
                 if (permissions[0] == 'd')
                 {
                     if (!Directory.Exists(localFilePath))
@@ -95,14 +98,22 @@ namespace Bajadaftp
                             targetStream.Write(buffer, 0, read);
                         }
                     }
-                    FtpWebRequest request = (FtpWebRequest)WebRequest.Create(Hostbaja + name);
-                    request.Method = WebRequestMethods.Ftp.DeleteFile;
-                    request.Credentials = new NetworkCredential(usuario, pass);
 
-                    using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
-                    {
+                    Uri serverFile = new Uri(fileUrl);
+                    FtpWebRequest reqFTP = (FtpWebRequest)FtpWebRequest.Create(serverFile);
+                    reqFTP.Method = WebRequestMethods.Ftp.Rename;
+                    reqFTP.Credentials = new NetworkCredential(usuario, pass);
+                    reqFTP.RenameTo = "Procesado/" + name;
+                    FtpWebResponse response = (FtpWebResponse)reqFTP.GetResponse();
+                    //delete files fpt
+                    //FtpWebRequest request = (FtpWebRequest)WebRequest.Create(Hostbaja + name);
+                    //request.Method = WebRequestMethods.Ftp.DeleteFile;
+                    //request.Credentials = new NetworkCredential(usuario, pass);
 
-                    }
+                    //using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
+                    //{
+
+                    //}
                 }
             }
         }
