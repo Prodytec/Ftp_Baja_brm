@@ -16,16 +16,54 @@ namespace Bajadaftp
         SqlConnection cnn = BD.DbConnection.getDBConnection();
         public void leercsv()
         {
-            string[] lineas = File.ReadAllLines("C:/Users/DELL/Desktop/Visual Studio/archivo_brm/Productos_19-04-2022_10-40-35.csv");
+            DataTable ConfigData = new DataTable();
+            string sql = "Select * From ecomm_expert_config";
+            SqlCommand cmd = new SqlCommand(sql, cnn);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(ConfigData);
+            string archivo = ConfigData.Rows[0]["CARPETA_ORDENES"].ToString();
+
+
+            string[] lineas = Directory.GetFiles(archivo);
 
             foreach (var linea in lineas)
             {
-                var valores = linea.Split('|');
-                SqlCommand cmd = new SqlCommand("sp_proyectocolor_stock", cnn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@codigo", valores[0]);
-                cmd.Parameters.AddWithValue("@stock", valores[5]);
-                cmd.ExecuteNonQuery();
+                string[] csv = File.ReadAllLines(linea);
+                foreach(var line in csv)
+                {
+                    var valores = line.Split('|');
+                    int valorI = 4;
+                    if (Convert.ToInt16(valores[1].ToString()) == valorI)
+                    {
+                        SqlCommand cmdp = new SqlCommand("sp_proyectocolor_stock", cnn);
+                        cmdp.CommandType = CommandType.StoredProcedure;
+                        cmdp.Parameters.AddWithValue("@idorden", valores[0]);
+                        cmdp.Parameters.AddWithValue("@codigo", valores[3].Trim());
+                        cmdp.Parameters.AddWithValue("@cantidad", valores[5]);
+                        cmdp.ExecuteNonQuery();
+                    }
+                }
+                foreach(var line in csv)
+                {
+                    var valores = line.Split('|');
+                    int valor = 3;
+                    if (Convert.ToInt16(valores[1].ToString()) == valor && valores[2] == "cancelled")
+                    {
+                        SqlCommand cmdu = new SqlCommand("sp_proyectocolor_ecomm_update", cnn);
+                        cmdu.Parameters.AddWithValue("@seleccion", 2);
+                        cmdu.CommandType = CommandType.StoredProcedure;
+                        cmdu.ExecuteNonQuery();
+                    }
+                    else
+                    {
+                        SqlCommand cmdu = new SqlCommand("sp_proyectocolor_ecomm_update", cnn);
+                        cmdu.Parameters.AddWithValue("@seleccion", 1);
+                        cmdu.CommandType = CommandType.StoredProcedure;
+                        cmdu.ExecuteNonQuery();
+                    }
+                }
+                SqlCommand update = new SqlCommand(" update Ecommstock set procesado = 1 where procesado = 0", cnn);
+                update.ExecuteNonQuery();
             }
         }
         public void Bajada()
@@ -70,9 +108,6 @@ namespace Bajadaftp
                 string localFilePath = Path.Combine(archivo, name);
                 string fileUrl = Hostbaja + name;
 
-
-                
-
                 if (permissions[0] == 'd')
                 {
                     if (!Directory.Exists(localFilePath))
@@ -105,15 +140,6 @@ namespace Bajadaftp
                     reqFTP.Credentials = new NetworkCredential(usuario, pass);
                     reqFTP.RenameTo = "Procesado/" + name;
                     FtpWebResponse response = (FtpWebResponse)reqFTP.GetResponse();
-                    //delete files fpt
-                    //FtpWebRequest request = (FtpWebRequest)WebRequest.Create(Hostbaja + name);
-                    //request.Method = WebRequestMethods.Ftp.DeleteFile;
-                    //request.Credentials = new NetworkCredential(usuario, pass);
-
-                    //using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
-                    //{
-
-                    //}
                 }
             }
         }
