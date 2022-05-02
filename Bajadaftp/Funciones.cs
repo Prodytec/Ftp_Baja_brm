@@ -33,6 +33,7 @@ namespace Bajadaftp
                 {
                     var valores = line.Split('|');
                     int valorI = 4;
+                    int valor = 3;
                     if (Convert.ToInt16(valores[1].ToString()) == valorI)
                     {
                         SqlCommand cmdp = new SqlCommand("sp_proyectocolor_stock", cnn);
@@ -42,28 +43,27 @@ namespace Bajadaftp
                         cmdp.Parameters.AddWithValue("@cantidad", valores[5]);
                         cmdp.ExecuteNonQuery();
                     }
-                }
-                foreach(var line in csv)
-                {
-                    var valores = line.Split('|');
-                    int valor = 3;
                     if (Convert.ToInt16(valores[1].ToString()) == valor && valores[2] == "cancelled")
                     {
                         SqlCommand cmdu = new SqlCommand("sp_proyectocolor_ecomm_update", cnn);
                         cmdu.Parameters.AddWithValue("@seleccion", 2);
                         cmdu.CommandType = CommandType.StoredProcedure;
                         cmdu.ExecuteNonQuery();
+
+                        SqlCommand update = new SqlCommand(" update Ecommstock set procesado = 1 where procesado = 0", cnn);
+                        update.ExecuteNonQuery();
                     }
-                    else
+                    else if (Convert.ToInt16(valores[1].ToString()) == valorI)
                     {
                         SqlCommand cmdu = new SqlCommand("sp_proyectocolor_ecomm_update", cnn);
                         cmdu.Parameters.AddWithValue("@seleccion", 1);
                         cmdu.CommandType = CommandType.StoredProcedure;
                         cmdu.ExecuteNonQuery();
+
+                        SqlCommand update = new SqlCommand(" update Ecommstock set procesado = 1 where procesado = 0", cnn);
+                        update.ExecuteNonQuery();
                     }
                 }
-                SqlCommand update = new SqlCommand(" update Ecommstock set procesado = 1 where procesado = 0", cnn);
-                update.ExecuteNonQuery();
             }
         }
         public void Bajada()
