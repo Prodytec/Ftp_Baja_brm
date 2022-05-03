@@ -23,10 +23,9 @@ namespace Bajadaftp
             da.Fill(ConfigData);
             string archivo = ConfigData.Rows[0]["CARPETA_ORDENES"].ToString();
 
+            string[] ruta = Directory.GetFiles(archivo);
 
-            string[] lineas = Directory.GetFiles(archivo);
-
-            foreach (var linea in lineas)
+            foreach (var linea in ruta)
             {
                 string[] csv = File.ReadAllLines(linea);
                 foreach(var line in csv)
@@ -65,6 +64,18 @@ namespace Bajadaftp
                     }
                 }
             }
+
+            string directorio = archivo + "Procesado\\";
+            foreach(string s in ruta)
+            {
+                string filename = Path.GetFileName(s);
+                string destfile = Path.Combine(directorio, filename);
+                File.Move(s, destfile);
+            }
+            
+
+
+
         }
         public void Bajada()
         {
