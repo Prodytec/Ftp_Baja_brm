@@ -32,7 +32,6 @@ namespace Bajadaftp
                 {
                     var valores = line.Split('|');
                     int valorI = 4;
-                    int valor = 3;
                     if (Convert.ToInt16(valores[1].ToString()) == valorI)
                     {
                         SqlCommand cmdp = new SqlCommand("sp_proyectocolor_stock", cnn);
@@ -42,24 +41,33 @@ namespace Bajadaftp
                         cmdp.Parameters.AddWithValue("@cantidad", valores[5]);
                         cmdp.ExecuteNonQuery();
                     }
+                }
+                foreach (var line in csv)
+                {
+                    var valores = line.Split('|');
+                    int valorI = 4;
+                    int valor = 3;
                     if (Convert.ToInt16(valores[1].ToString()) == valor && valores[2] == "cancelled")
                     {
+
                         SqlCommand cmdu = new SqlCommand("sp_proyectocolor_ecomm_update", cnn);
+                        cmdu.Parameters.AddWithValue("@idorden", valores[0]);
                         cmdu.Parameters.AddWithValue("@seleccion", 2);
                         cmdu.CommandType = CommandType.StoredProcedure;
                         cmdu.ExecuteNonQuery();
 
-                        SqlCommand update = new SqlCommand(" update Ecommstock set procesado = 1 where procesado = 0", cnn);
-                        update.ExecuteNonQuery();
+                        SqlCommand listo = new SqlCommand(" update Ecommstock set procesado = 1 where idorden =" + valores[0], cnn);
+                        listo.ExecuteNonQuery();
                     }
                     else if (Convert.ToInt16(valores[1].ToString()) == valorI)
                     {
                         SqlCommand cmdu = new SqlCommand("sp_proyectocolor_ecomm_update", cnn);
+                        cmdu.Parameters.AddWithValue("@idorden", valores[0]);
                         cmdu.Parameters.AddWithValue("@seleccion", 1);
                         cmdu.CommandType = CommandType.StoredProcedure;
                         cmdu.ExecuteNonQuery();
 
-                        SqlCommand update = new SqlCommand(" update Ecommstock set procesado = 1 where procesado = 0", cnn);
+                        SqlCommand update = new SqlCommand(" update Ecommstock set procesado = 1 where idorden =" + valores[0], cnn);
                         update.ExecuteNonQuery();
                     }
                 }
