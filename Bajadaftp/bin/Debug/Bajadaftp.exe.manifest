@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Bajadaftp.exe" size="11224">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Bajadaftp.exe" size="12248">
       <assemblyIdentity name="Bajadaftp" version="1.0.0.0" publicKeyToken="83E4F24E0D413819" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>VfmqDLI9Rs4dPMhZdhb8R0PzK5X8u/eD7yGKwVRLsRs=</dsig:DigestValue>
+        <dsig:DigestValue>PA3aYBD2ZAoAghkSK1CHPdnbthWBffBKMPWyKJLlHU4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

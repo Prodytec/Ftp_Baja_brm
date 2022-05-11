@@ -22,14 +22,23 @@ namespace Bajadaftp
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(ConfigData);
             string archivo = ConfigData.Rows[0]["CARPETA_ORDENES"].ToString();
-
+            string directorio = archivo + "Procesado\\";
             string[] ruta = Directory.GetFiles(archivo);
+            Log L = new Log(directorio);
+
 
             foreach (var linea in ruta)
             {
                 string[] csv = File.ReadAllLines(linea);
-                foreach(var line in csv)
+                string filename = Path.GetFileName(linea);
+
+                L.Add("--");
+                L.Add("Procesando..");
+                L.Add(filename);
+
+                foreach (var line in csv)
                 {
+                    
                     var valores = line.Split('|');
                     int valorI = 4;
                     if (Convert.ToInt16(valores[1].ToString()) == valorI)
@@ -71,17 +80,18 @@ namespace Bajadaftp
                         update.ExecuteNonQuery();
                     }
                 }
+                L.Add("Procesado"+ " "+ filename);
             }
 
-            string directorio = archivo + "Procesado\\";
+            
             foreach(string s in ruta)
             {
                 string filename = Path.GetFileName(s);
                 string destfile = Path.Combine(directorio, filename);
                 File.Move(s, destfile);
             }
-            
 
+            L.Add("----------------Terminado---------------" + "\n");
 
 
         }
