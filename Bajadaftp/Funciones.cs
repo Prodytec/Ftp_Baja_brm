@@ -35,51 +35,51 @@ namespace Bajadaftp
                 L.Add("--");
                 L.Add("Procesando..");
                 L.Add(filename);
-
-                foreach (var line in csv)
-                {
-                    
-                    var valores = line.Split('|');
-                    int valorI = 4;
-                    if (Convert.ToInt16(valores[1].ToString()) == valorI)
-                    {
-                        SqlCommand cmdp = new SqlCommand("sp_proyectocolor_stock", cnn);
-                        cmdp.CommandType = CommandType.StoredProcedure;
-                        cmdp.Parameters.AddWithValue("@idorden", valores[0]);
-                        cmdp.Parameters.AddWithValue("@codigo", valores[3].Trim());
-                        cmdp.Parameters.AddWithValue("@cantidad", valores[5]);
-                        cmdp.ExecuteNonQuery();
-                    }
-                }
+                bool status = false;
                 foreach (var line in csv)
                 {
                     var valores = line.Split('|');
                     int valorI = 4;
                     int valor = 3;
+                    Console.WriteLine(line);
+                    
                     if (Convert.ToInt16(valores[1].ToString()) == valor && valores[2] == "cancelled")
                     {
-
-                        SqlCommand cmdu = new SqlCommand("sp_proyectocolor_ecomm_update", cnn);
-                        cmdu.Parameters.AddWithValue("@idorden", valores[0]);
-                        cmdu.Parameters.AddWithValue("@seleccion", 2);
-                        cmdu.CommandType = CommandType.StoredProcedure;
-                        cmdu.ExecuteNonQuery();
-
-                        SqlCommand listo = new SqlCommand(" update Ecommstock set procesado = 1 where idorden =" + valores[0], cnn);
-                        listo.ExecuteNonQuery();
+                        status = true;
                     }
-                    else if (Convert.ToInt16(valores[1].ToString()) == valorI)
+                    else if(Convert.ToInt16(valores[1].ToString()) == valor)
                     {
-                        SqlCommand cmdu = new SqlCommand("sp_proyectocolor_ecomm_update", cnn);
-                        cmdu.Parameters.AddWithValue("@idorden", valores[0]);
-                        cmdu.Parameters.AddWithValue("@seleccion", 1);
-                        cmdu.CommandType = CommandType.StoredProcedure;
-                        cmdu.ExecuteNonQuery();
-
-                        SqlCommand update = new SqlCommand(" update Ecommstock set procesado = 1 where idorden =" + valores[0], cnn);
-                        update.ExecuteNonQuery();
+                        status = false;
+                    }
+                    if (Convert.ToInt16(valores[1].ToString()) == valorI )
+                    {
+                        int x;
+                        if( status == true)
+                        {
+                            x = -1;
+                        }
+                        else
+                        {
+                            x = 1;
+                        }
+                        int cantidad = Convert.ToInt32(valores[5]) * x;
+                        SqlCommand cmdp = new SqlCommand("sp_proyectocolor_stock", cnn);
+                        cmdp.CommandType = CommandType.StoredProcedure;
+                        cmdp.Parameters.AddWithValue("@idorden", valores[0]);
+                        cmdp.Parameters.AddWithValue("@codigo", valores[3].Trim());
+                        cmdp.Parameters.AddWithValue("@cantidad", cantidad);
+                        cmdp.ExecuteNonQuery();
                     }
                 }
+                SqlCommand cmdu = new SqlCommand("sp_proyectocolor_ecomm_update", cnn);
+                cmdu.Parameters.AddWithValue("@idorden", 0);
+                cmdu.Parameters.AddWithValue("@seleccion", 1);
+                cmdu.CommandType = CommandType.StoredProcedure;
+                cmdu.ExecuteNonQuery();
+
+                SqlCommand listo = new SqlCommand(" update Ecommstock set procesado = 1 where procesado = 0", cnn);
+                listo.ExecuteNonQuery();
+
                 L.Add("Procesado"+ " "+ filename);
             }
 
