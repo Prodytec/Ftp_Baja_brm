@@ -68,6 +68,7 @@ namespace Bajadaftp
                         cmdp.Parameters.AddWithValue("@idorden", valores[0]);
                         cmdp.Parameters.AddWithValue("@codigo", valores[3].Trim());
                         cmdp.Parameters.AddWithValue("@cantidad", cantidad);
+                        cmdp.Parameters.AddWithValue("@item", valores[2]);
                         cmdp.ExecuteNonQuery();
                     }
                 }
